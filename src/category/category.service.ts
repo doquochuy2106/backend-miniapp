@@ -11,6 +11,10 @@ export class CategoryService {
     @InjectModel(Category.name) private categoryModel: Model<CategoryDocument>,
   ) {}
 
+  async bulkCreate(dtos: CreateCategoryDto[]) {
+    return this.categoryModel.insertMany(dtos);
+  }
+
   async create(dto: CreateCategoryDto) {
     const category = new this.categoryModel(dto);
     return category.save();

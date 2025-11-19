@@ -39,4 +39,8 @@ export class ProductController {
   remove(@Param('id') id: string) {
     return this.service.remove(id);
   }
+  @Post('bulk')
+  bulkCreate(@Body() dtos: CreateProductDto[]) {
+    return this.service.bulkCreate(dtos);
+  }
 }
