@@ -6,6 +6,7 @@ import {
   Param,
   Put,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { CreateProductDto } from './dto/create-product.dto';
@@ -21,8 +22,8 @@ export class ProductController {
   }
 
   @Get()
-  findAll() {
-    return this.service.findAll();
+  findAll(@Query('page') page = 1, @Query('limit') limit = 10) {
+    return this.service.findAll(+page, +limit);
   }
 
   @Get(':id')
@@ -39,6 +40,8 @@ export class ProductController {
   remove(@Param('id') id: string) {
     return this.service.remove(id);
   }
+
+  // Bulk insert
   @Post('bulk')
   bulkCreate(@Body() dtos: CreateProductDto[]) {
     return this.service.bulkCreate(dtos);

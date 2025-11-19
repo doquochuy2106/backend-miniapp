@@ -13,13 +13,34 @@ export class ProductService {
     @InjectModel(Category.name) private categoryModel: Model<CategoryDocument>,
   ) {}
 
+  async findAll(page: number, limit: number) {
+    const skip = (page - 1) * limit;
+
+    const [data, total] = await Promise.all([
+      this.productModel
+        .find()
+        .populate('categoryId', 'name image')
+        .skip(skip)
+        .limit(limit)
+        .exec(),
+
+      this.productModel.countDocuments().exec(),
+    ]);
+
+    return {
+      total,
+      page,
+      limit,
+      totalPages: Math.ceil(total / limit),
+      data,
+    };
+  }
+
   async bulkCreate(dtos: CreateProductDto[]) {
-    // Validate category IDs before bulk insertion
     const categoryIds = await this.categoryModel.find({}).select('_id').exec();
-    // Prepare products for insertion
+
     const productsToInsert = dtos.map((dto) => ({
       ...dto,
-      //random in list of categoryIds
       categoryId:
         categoryIds[Math.floor(Math.random() * categoryIds.length)]._id,
     }));
@@ -38,14 +59,11 @@ export class ProductService {
     return product.save();
   }
 
-  async findAll() {
-    return this.productModel.find().populate('categoryId', 'name image').exec();
-  }
-
   async findOne(id: string) {
     const product = await this.productModel
       .findById(id)
       .populate('categoryId', 'name image');
+
     if (!product) throw new NotFoundException('Product not found');
     return product;
   }
