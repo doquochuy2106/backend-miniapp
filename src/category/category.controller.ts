@@ -7,16 +7,16 @@ import {
   Put,
   Delete,
 } from '@nestjs/common';
-import { ProductService } from './product.service';
-import { CreateProductDto } from './dto/create-product.dto';
-import { UpdateProductDto } from './dto/update-product.dto';
+import { CategoryService } from './category.service';
+import { CreateCategoryDto } from './dto/create-category.dto';
+import { UpdateCategoryDto } from './dto/update-category.dto';
 
-@Controller('product')
-export class ProductController {
-  constructor(private readonly service: ProductService) {}
+@Controller('category')
+export class CategoryController {
+  constructor(private readonly service: CategoryService) {}
 
   @Post()
-  create(@Body() dto: CreateProductDto) {
+  create(@Body() dto: CreateCategoryDto) {
     return this.service.create(dto);
   }
 
@@ -31,7 +31,7 @@ export class ProductController {
   }
 
   @Put(':id')
-  update(@Param('id') id: string, @Body() dto: UpdateProductDto) {
+  update(@Param('id') id: string, @Body() dto: UpdateCategoryDto) {
     return this.service.update(id, dto);
   }
 
