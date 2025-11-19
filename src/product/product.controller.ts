@@ -11,6 +11,7 @@ import {
 import { ProductService } from './product.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
+import { ResponseMessage } from 'src/decorator/response-message.decorator';
 
 @Controller('product')
 export class ProductController {
@@ -22,11 +23,13 @@ export class ProductController {
   }
 
   @Get()
+  @ResponseMessage('Lấy danh sách user thành công')
   findAll(@Query('page') page = 1, @Query('limit') limit = 10) {
     return this.service.findAll(+page, +limit);
   }
 
   @Get(':id')
+  @ResponseMessage('Lấy danh sách user thành công')
   findOne(@Param('id') id: string) {
     return this.service.findOne(id);
   }
