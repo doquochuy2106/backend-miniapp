@@ -39,4 +39,9 @@ export class CategoryController {
   remove(@Param('id') id: string) {
     return this.service.remove(id);
   }
+
+  @Post('bulk')
+  bulkCreate(@Body() dtos: CreateCategoryDto[]) {
+    return this.service.bulkCreate(dtos);
+  }
 }

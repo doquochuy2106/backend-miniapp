@@ -13,6 +13,19 @@ export class ProductService {
     @InjectModel(Category.name) private categoryModel: Model<CategoryDocument>,
   ) {}
 
+  async bulkCreate(dtos: CreateProductDto[]) {
+    // Validate category IDs before bulk insertion
+    const categoryIds = await this.categoryModel.find({}).select('_id').exec();
+    // Prepare products for insertion
+    const productsToInsert = dtos.map((dto) => ({
+      ...dto,
+      //random in list of categoryIds
+      categoryId:
+        categoryIds[Math.floor(Math.random() * categoryIds.length)]._id,
+    }));
+    return this.productModel.insertMany(productsToInsert);
+  }
+
   async create(dto: CreateProductDto) {
     const category = await this.categoryModel.findById(dto.categoryId);
     if (!category) throw new NotFoundException('Category not found');
