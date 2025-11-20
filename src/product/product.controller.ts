@@ -24,8 +24,12 @@ export class ProductController {
 
   @Get()
   @ResponseMessage('Lấy danh sách user thành công')
-  findAll(@Query('page') page = 1, @Query('limit') limit = 10) {
-    return this.service.findAll(+page, +limit);
+  findAll(
+    @Query('page') page = 1,
+    @Query('limit') limit = 10,
+    @Query('keyword') keyword?: string,
+  ) {
+    return this.service.findAll(+page, +limit, keyword);
   }
 
   @Get(':id')

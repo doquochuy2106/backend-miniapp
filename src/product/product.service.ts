@@ -17,18 +17,24 @@ export class ProductService {
     @InjectModel(Category.name) private categoryModel: Model<CategoryDocument>,
   ) {}
 
-  async findAll(page: number, limit: number) {
+  async findAll(page: number, limit: number, keyword?: string) {
     const skip = (page - 1) * limit;
+
+    const filter: any = {};
+    if (keyword) {
+      filter.$or = [{ name: { $regex: keyword, $options: 'i' } }];
+    }
 
     const [data, total] = await Promise.all([
       this.productModel
-        .find()
+        .find(filter)
         .populate('categoryId', 'name image')
+        .sort({ createdAt: -1 })
         .skip(skip)
         .limit(limit)
         .exec(),
 
-      this.productModel.countDocuments().exec(),
+      this.productModel.countDocuments(filter).exec(),
     ]);
 
     return {
