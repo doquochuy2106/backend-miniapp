@@ -27,7 +27,7 @@ export class ProductController {
 
   @Public()
   @Get()
-  @ResponseMessage('Lấy danh sách user thành công')
+  @ResponseMessage('Lấy danh sách user thành công11')
   findAll(
     @Query('page') page = 1,
     @Query('limit') limit = 10,
