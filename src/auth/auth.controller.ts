@@ -13,7 +13,7 @@ export class AuthController {
 
   @Public()
   @Post('register')
-  @ResponseMessage('Register success')
+  @ResponseMessage('Register success1')
   async register(@Body() dto: CreateUserDto) {
     return await this.authService.register(dto);
   }
