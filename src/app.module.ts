@@ -8,6 +8,7 @@ import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { APP_GUARD } from '@nestjs/core';
 import { GlobalAuthGuard } from './auth/guards/global-auth.guard';
+import { RolesGuard } from './auth/guards/roles.guard';
 
 @Module({
   imports: [
@@ -24,6 +25,10 @@ import { GlobalAuthGuard } from './auth/guards/global-auth.guard';
   {
     provide: APP_GUARD,
     useClass: GlobalAuthGuard,
+  },
+  {
+      provide: APP_GUARD,
+      useClass: RolesGuard,
   },
 ],
 })
