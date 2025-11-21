@@ -11,6 +11,7 @@ import { BannerService } from './banners.service';
 import { CreateBannerDto } from './dto/create-banner.dto';
 import { UpdateBannerDto } from './dto/update-banner.dto';
 import { ResponseMessage } from 'src/auth/decorators/response-message.decorator';
+import { Roles } from 'src/auth/decorators/roles.decorator';
 
 @Controller('banners')
 export class BannerController {
@@ -22,12 +23,14 @@ export class BannerController {
     return this.bannerService.findAll();
   }
 
+  @Roles('admin')
   @Post()
   @ResponseMessage('Tạo banner thành công')
   create(@Body() dto: CreateBannerDto) {
     return this.bannerService.create(dto);
   }
 
+  @Roles('admin')
   @Post('bulk')
   bulkCreate(@Body() dtos: CreateBannerDto[]) {
     return this.bannerService.bulkCreate(dtos);
@@ -39,12 +42,14 @@ export class BannerController {
     return this.bannerService.findOne(id);
   }
 
+  @Roles('admin')
   @Put(':id')
   @ResponseMessage('Sửa banner thành công')
   update(@Param('id') id: string, @Body() dto: UpdateBannerDto) {
     return this.bannerService.update(id, dto);
   }
 
+  @Roles('admin')
   @Delete(':id')
   @ResponseMessage('Xóa banner thành công')
   remove(@Param('id') id: string) {
