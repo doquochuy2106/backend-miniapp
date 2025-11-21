@@ -11,7 +11,7 @@ import {
 import { ProductService } from './product.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
-import { ResponseMessage } from 'src/decorator/response-message.decorator';
+import { ResponseMessage } from 'src/auth/decorators/response-message.decorator';
 
 @Controller('product')
 export class ProductController {

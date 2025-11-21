@@ -10,7 +10,7 @@ import {
 import { BannerService } from './banners.service';
 import { CreateBannerDto } from './dto/create-banner.dto';
 import { UpdateBannerDto } from './dto/update-banner.dto';
-import { ResponseMessage } from 'src/decorator/response-message.decorator';
+import { ResponseMessage } from 'src/auth/decorators/response-message.decorator';
 
 @Controller('banners')
 export class BannerController {
