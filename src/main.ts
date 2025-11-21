@@ -1,6 +1,8 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 import { NestFactory, Reflector } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { TransformInterceptor } from './core/transform.interceptor';
+import { GlobalAuthGuard } from './auth/guards/global-auth.guard';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -16,8 +18,13 @@ async function bootstrap() {
     credentials: true,
   });
 
-  // Đăng ký Interceptor toàn cục
+  const globalAuthGuard = app.get(GlobalAuthGuard);
+
+  // Interceptor toàn cục (bạn đã có)
   app.useGlobalInterceptors(new TransformInterceptor(app.get(Reflector)));
+
+  // Guard toàn cục bảo vệ toàn app, nhưng sẽ bỏ qua routes có @Public()
+  app.useGlobalGuards(globalAuthGuard);
 
   await app.listen(process.env.PORT ?? 3000);
 }

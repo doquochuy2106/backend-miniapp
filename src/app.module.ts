@@ -4,6 +4,10 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { ProductModule } from './product/product.module';
 import { CategoryModule } from './category/category.module';
 import { BannerModule } from './banners/banners.module';
+import { AuthModule } from './auth/auth.module';
+import { UsersModule } from './users/users.module';
+import { APP_GUARD } from '@nestjs/core';
+import { GlobalAuthGuard } from './auth/guards/global-auth.guard';
 
 @Module({
   imports: [
@@ -13,6 +17,14 @@ import { BannerModule } from './banners/banners.module';
     CategoryModule,
     ProductModule,
     BannerModule,
+    AuthModule,
+    UsersModule,
   ],
+  providers: [
+  {
+    provide: APP_GUARD,
+    useClass: GlobalAuthGuard,
+  },
+],
 })
 export class AppModule {}
