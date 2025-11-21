@@ -13,6 +13,7 @@ import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { ResponseMessage } from 'src/auth/decorators/response-message.decorator';
 import { Roles } from 'src/auth/decorators/roles.decorator';
+import { Public } from 'src/auth/decorators/public.decorator';
 
 @Controller('product')
 export class ProductController {
@@ -24,6 +25,7 @@ export class ProductController {
     return this.service.create(dto);
   }
 
+  @Public()
   @Get()
   @ResponseMessage('Lấy danh sách user thành công')
   findAll(
@@ -34,6 +36,7 @@ export class ProductController {
     return this.service.findAll(+page, +limit, keyword);
   }
 
+  @Public()
   @Get(':id')
   @ResponseMessage('Lấy danh sách user thành công')
   findOne(@Param('id') id: string) {

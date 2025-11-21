@@ -12,11 +12,13 @@ import { CreateBannerDto } from './dto/create-banner.dto';
 import { UpdateBannerDto } from './dto/update-banner.dto';
 import { ResponseMessage } from 'src/auth/decorators/response-message.decorator';
 import { Roles } from 'src/auth/decorators/roles.decorator';
+import { Public } from 'src/auth/decorators/public.decorator';
 
 @Controller('banners')
 export class BannerController {
   constructor(private readonly bannerService: BannerService) {}
 
+  @Public()
   @Get()
   @ResponseMessage('Lấy banner thành công')
   findAll() {
@@ -36,6 +38,7 @@ export class BannerController {
     return this.bannerService.bulkCreate(dtos);
   }
 
+  @Public()
   @Get(':id')
   @ResponseMessage('Lấy banner theo Id thành công')
   findOne(@Param('id') id: string) {
